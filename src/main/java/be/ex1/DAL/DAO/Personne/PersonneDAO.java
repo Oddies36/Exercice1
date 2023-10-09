@@ -2,39 +2,95 @@ package be.ex1.DAL.DAO.Personne;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PersonneDAO implements IPersonneDAO {
 
     @Override
-    public void getPersonneID() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPersonneID'");
+    public int getPersonneID(Connection conn, String nom, String prenom) {
+        int id = -1;
+        String sqlString = "SELECT id FROM Personne WHERE nom = ? AND prenom = ?";
+
+        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+            pstat.setString(1, nom);
+            pstat.setString(2, prenom);
+            try(ResultSet rset = pstat.executeQuery()){
+                while(rset.next()){
+                    id = rset.getInt(1);
+                }
+            }
+            catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return id;
     }
 
     @Override
-    public void updatePersonne() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePersonne'");
+    public void updatePersonne(Connection conn, String nom, String prenom, int id) {
+        String sqlString = "UPDATE Personne SET nom = ?, prenom = ? WHERE id = ?";
+
+        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+            pstat.setString(1, nom);
+            pstat.setString(2, prenom);
+            pstat.setInt(3, id);
+            pstat.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void deletePersonne() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePersonne'");
+    public void deletePersonne(Connection conn, int id) {
+        String sqlString = "DELETE FROM Personne WHERE id = ?";
+
+        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+            pstat.setInt(1, id);
+            pstat.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void createPersonne() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPersonne'");
+    public void createPersonne(Connection conn, int statusId, String nom, String prenom) {
+        String sqlString = "INSERT INTO Personne (id_status, nom, prenom) VALUES (?, ?, ?)";
+
+        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+            pstat.setInt(1, statusId);
+            pstat.setString(2, nom);
+            pstat.setString(3, prenom);
+            pstat.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public ArrayList<Personne> getPersonnes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPersonnes'");
+    public ArrayList<Personne> getPersonnes(Connection conn) {
+        String sqlString = "SELECT id, id_status, nom, prenom FROM Personne";
+        ArrayList<Personne> persAL = new ArrayList<Personne>();
+
+        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+            try(ResultSet rset = pstat.executeQuery()){
+                while(rset.next()){
+                    Personne pers = new Personne(rset.getInt(1), rset.getInt(2), rset.getString(3), rset.getString(4));
+                    persAL.add(pers);
+                }
+            }
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return persAL;
     }
 
     @Override

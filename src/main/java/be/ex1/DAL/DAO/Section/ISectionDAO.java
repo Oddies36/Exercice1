@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public interface ISectionDAO {
 
-    public void getSectionID();
+    public int getSectionID(Connection conn, String section);
 
-    public void updateSection();
+    public void updateSection(Connection conn, int id, String section);
 
-    public void deleteSection();
+    public void deleteSection(Connection conn, int id);
 
-    public void createSection();
+    public void createSection(Connection conn, String section);
 
-    public ArrayList<Section> getSections();
+    public ArrayList<Section> getSections(Connection conn);
 
     public void createTableSection(Connection conn);
 }

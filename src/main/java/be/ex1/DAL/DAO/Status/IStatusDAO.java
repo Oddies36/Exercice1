@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public interface IStatusDAO {
 
-    public void getStatusID(Connection conn);
+    public int getStatusID(Connection conn, String status);
 
-    public void updateStatus(Connection conn);
+    public void updateStatus(Connection conn, int id, String status);
 
-    public void deleteStatus(Connection conn);
+    public void deleteStatus(Connection conn, int id);
 
     public void createStatus(Connection conn, String status);
 
-    public ArrayList<Status> getStatus();
+    public ArrayList<Status> getStatus(Connection conn);
 
     public void createTableStatus(Connection conn);
 }
