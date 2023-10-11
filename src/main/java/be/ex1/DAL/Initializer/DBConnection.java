@@ -6,17 +6,34 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+    public static Connection conn;
+    private static DBConnection instance;
+
     public DBConnection(){
-        
+        try{
+            DBConnection.conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/ecole", "postgres", "P642max36+");
+            System.out.println("Connection ok");
+        }    
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
-    public Connection openConnection(String url, String username, String password){
+    public static DBConnection getConnection(){
+        if(DBConnection.instance == null){
+            DBConnection.instance = new DBConnection();
+        }
+        return DBConnection.instance;
+    }
+
+    public static void closeConnection(){
         try{
-            return DriverManager.getConnection(url, username, password);
+            if(DBConnection.conn != null){
+                DBConnection.conn.close();
+            }
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
-            return null;
         }
     }
 }

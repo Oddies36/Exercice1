@@ -1,19 +1,18 @@
 package be.ex1.DAL.DAO.Status;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public interface IStatusDAO {
 
-    public int getStatusID(Connection conn, String status);
+    public int getStatusID(String status);
 
-    public void updateStatus(Connection conn, int id, String status);
+    public void updateStatus(int id, String status);
 
-    public void deleteStatus(Connection conn, int id);
+    public void deleteStatus(int id);
 
-    public void createStatus(Connection conn, String status);
+    public void createStatus(String status);
 
-    public ArrayList<Status> getStatus(Connection conn);
+    public ArrayList<Status> getStatus();
 
-    public void createTableStatus(Connection conn);
+    public void createTableStatus();
 }

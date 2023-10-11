@@ -1,10 +1,12 @@
 package be.ex1;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import be.ex1.DAL.DAO.Cours.CoursDAO;
+import be.ex1.DAL.DAO.Cours.ICoursDAO;
+import be.ex1.DAL.DAO.Cours_Personne.Cours_PersonneDAO;
+import be.ex1.DAL.DAO.Cours_Personne.ICours_PersonneDAO;
 import be.ex1.DAL.DAO.Personne.IPersonneDAO;
 import be.ex1.DAL.DAO.Personne.Personne;
 import be.ex1.DAL.DAO.Personne.PersonneDAO;
@@ -21,52 +23,40 @@ public class Main {
     public static void main(String[] args) {
 
         new DatabaseInitializer();
+        DBConnection.getConnection();
 
-        DBConnection dbconn = new DBConnection();
         IStatusDAO istatdao = new StatusDAO();
         ISectionDAO isecdao = new SectionDAO();
         IPersonneDAO ipersdao = new PersonneDAO();
+        ICours_PersonneDAO icourPersdao = new Cours_PersonneDAO();
+        ICoursDAO icourdao = new CoursDAO();
 
-        ArrayList<Personne> alist = new ArrayList<Personne>();
-        int id = -1;
-
-        try(Connection conn = dbconn.openConnection("jdbc:postgresql://127.0.0.1/ecole", "postgres", "P642max36+")){
-            //istatdao.createStatus(conn, "Etudiant");
-            //istatdao.createStatus(conn, "Charge de cours");
-            //istatdao.createStatus(conn, "Employe administratif");
-
-            //isecdao.createSection(conn, "Informatique de gestion");
-            //isecdao.createSection(conn, "Droit");
-
-            //isecdao.deleteSection(conn, 2);
-            
-            //istatdao.deleteStatus(conn, 1);
-            //istatdao.deleteStatus(conn, 2);
-            //istatdao.deleteStatus(conn, 4);
-
-            //istatdao.updateStatus(conn, 7, "Employe Administratif");
-
-            //ipersdao.createPersonne(conn, 6, "Poulet", "Gilles");
-            //ipersdao.createPersonne(conn, 6, "Godissart", "Emmanuel");
-            //ipersdao.createPersonne(conn, 7, "Lai", "Valeria");
-            //ipersdao.createPersonne(conn, 7, "Mairesse", "David");
-            //ipersdao.createPersonne(conn, 5, "Durant", "Richard");
-            //ipersdao.createPersonne(conn, 5, "Ortiz", "Valerie");
-
-            id = ipersdao.getPersonneID(conn, "Lai", "Valeria");
-            System.out.println(id);
-
-            alist = ipersdao.getPersonnes(conn);
-            for (Personne p : alist){
-                System.out.println(p.getId() + " " + p.getId_status() + " " + p.getNom() + " " + p.getPrenom());
-            }
-
-            
-
-        }
-        catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
+        istatdao.createStatus("Etudiant");
+        istatdao.createStatus("Charge de cours");
+        istatdao.createStatus("Employe administratif");
         
+        isecdao.createSection("Informatique de gestion");
+        isecdao.createSection("Droit");
+        
+        ipersdao.createPersonne("Charge de cours", "Poulet", "Gilles");
+        ipersdao.createPersonne("Charge de cours", "Godissart", "Emmanuel");
+        ipersdao.createPersonne("Employe administratif", "Lai", "Valeria");
+        ipersdao.createPersonne("Employe administratif", "Mairesse", "David");
+        ipersdao.createPersonne("Etudiant", "Durant", "Richard");
+        ipersdao.createPersonne("Etudiant", "Ortiz", "Valerie");
+
+        icourdao.createCours("Informatique de gestion", "Base de réseaux");
+        icourdao.createCours("Informatique de gestion", "Systèmes d'exploitation");
+        icourdao.createCours("Informatique de gestion", "Programmation orienté objet");
+        icourdao.createCours("Droit", "Droit civil");
+        icourdao.createCours("Droit", "Droit commercial");
+        
+        icourPersdao.createCours_personne("Poulet", "Gilles", "Systèmes d'exploitation", 2022);
+        icourPersdao.createCours_personne("Godissart", "Emmanuel", "Base de réseaux", 2023);
+        icourPersdao.createCours_personne("Durant", "Richard", "Systèmes d'exploitation", 2021);
+        icourPersdao.createCours_personne("Durant", "Richard", "Base de réseaux", 2020);
+
+        DBConnection.closeConnection();
+
     }
 }

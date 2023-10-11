@@ -1,20 +1,19 @@
 package be.ex1.DAL.DAO.Cours;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public interface ICoursDAO {
 
-    public void getCoursID();
+    public int getCoursID(String nom);
 
-    public void updateCours();
+    public void updateCours(int id, String nom);
 
-    public void deleteCours();
+    public void deleteCours(int id);
 
-    public void createCours();
+    public void createCours(String nomSection, String nom);
 
     public ArrayList<Cours> getCours();
 
-    public void createTableCours(Connection conn);
+    public void createTableCours();
 
 }

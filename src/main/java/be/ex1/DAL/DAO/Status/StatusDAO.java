@@ -1,20 +1,24 @@
 package be.ex1.DAL.DAO.Status;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import be.ex1.DAL.Initializer.DBConnection;
+
 public class StatusDAO implements IStatusDAO {
 
-    public StatusDAO(){}
+    public StatusDAO(){
+        DBConnection.getConnection();
+    }
+
     @Override
-    public int getStatusID(Connection conn, String status) {
+    public int getStatusID(String status) {
         int id = -1;
         String sqlString = "SELECT id FROM Status WHERE status = ?";
 
-        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+        try(PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)){
             pstat.setString(1, status);
             try(ResultSet rset = pstat.executeQuery()){
                 while(rset.next()){
@@ -32,10 +36,10 @@ public class StatusDAO implements IStatusDAO {
     }
 
     @Override
-    public void updateStatus(Connection conn, int id, String status) {
+    public void updateStatus(int id, String status) {
         String sqlString = "UPDATE Status SET status = ? WHERE id = ?";
 
-        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+        try(PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)){
             pstat.setInt(2, id);
             pstat.setString(1, status);
             pstat.executeUpdate();
@@ -46,10 +50,10 @@ public class StatusDAO implements IStatusDAO {
     }
 
     @Override
-    public void deleteStatus(Connection conn, int id) {
+    public void deleteStatus(int id) {
         String sqlString = "DELETE FROM Status WHERE id = ?";
 
-        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+        try(PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)){
             pstat.setInt(1, id);
             pstat.executeUpdate();
         }
@@ -59,10 +63,10 @@ public class StatusDAO implements IStatusDAO {
     }
 
     @Override
-    public void createStatus(Connection conn, String status) {
+    public void createStatus(String status) {
         String sqlString = "INSERT INTO Status (status) VALUES (?)";
 
-        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+        try(PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)){
             pstat.setString(1, status);
             pstat.executeUpdate();
         }
@@ -72,11 +76,11 @@ public class StatusDAO implements IStatusDAO {
     }
 
     @Override
-    public ArrayList<Status> getStatus(Connection conn) {
+    public ArrayList<Status> getStatus() {
         String sqlString = "SELECT id, status FROM status";
         ArrayList<Status> statAL = new ArrayList<Status>();
 
-        try(PreparedStatement pstat = conn.prepareStatement(sqlString)){
+        try(PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)){
             try(ResultSet rset = pstat.executeQuery()){
                 while(rset.next()){
                     Status stat = new Status(rset.getInt(1), rset.getString(2));
@@ -91,10 +95,10 @@ public class StatusDAO implements IStatusDAO {
     }
 
     @Override
-    public void createTableStatus(Connection conn) {
-        String sqlString = "CREATE TABLE IF NOT EXISTS Status (id SERIAL PRIMARY KEY, status VARCHAR(20))";
+    public void createTableStatus() {
+        String sqlString = "CREATE TABLE IF NOT EXISTS Status (id SERIAL PRIMARY KEY, status VARCHAR(30))";
 
-        try (PreparedStatement pstat = conn.prepareStatement(sqlString)) {
+        try (PreparedStatement pstat = DBConnection.conn.prepareStatement(sqlString)) {
             pstat.executeUpdate();
         }
         catch(SQLException e){
