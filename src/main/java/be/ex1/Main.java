@@ -1,21 +1,11 @@
 package be.ex1;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import be.ex1.DAL.DAO.Cours.CoursDAO;
+import be.ex1.DAL.DAO.DAOFactory;
 import be.ex1.DAL.DAO.Cours.ICoursDAO;
-import be.ex1.DAL.DAO.Cours_Personne.Cours_PersonneDAO;
 import be.ex1.DAL.DAO.Cours_Personne.ICours_PersonneDAO;
 import be.ex1.DAL.DAO.Personne.IPersonneDAO;
-import be.ex1.DAL.DAO.Personne.Personne;
-import be.ex1.DAL.DAO.Personne.PersonneDAO;
 import be.ex1.DAL.DAO.Section.ISectionDAO;
-import be.ex1.DAL.DAO.Section.Section;
-import be.ex1.DAL.DAO.Section.SectionDAO;
 import be.ex1.DAL.DAO.Status.IStatusDAO;
-import be.ex1.DAL.DAO.Status.Status;
-import be.ex1.DAL.DAO.Status.StatusDAO;
 import be.ex1.DAL.Initializer.DBConnection;
 import be.ex1.DAL.Initializer.DatabaseInitializer;
 
@@ -23,13 +13,14 @@ public class Main {
     public static void main(String[] args) {
 
         new DatabaseInitializer();
-        DBConnection.getConnection();
 
-        IStatusDAO istatdao = new StatusDAO();
-        ISectionDAO isecdao = new SectionDAO();
-        IPersonneDAO ipersdao = new PersonneDAO();
-        ICours_PersonneDAO icourPersdao = new Cours_PersonneDAO();
-        ICoursDAO icourdao = new CoursDAO();
+        DAOFactory factory = new DAOFactory();
+
+        IStatusDAO istatdao = factory.createStatusDAO();
+        ISectionDAO isecdao = factory.createSectionDAO();
+        IPersonneDAO ipersdao = factory.createPersonneDAO();
+        ICours_PersonneDAO icourPersdao = factory.createCours_PersonneDAO();
+        ICoursDAO icourdao = factory.createCoursDAO();
 
         istatdao.createStatus("Etudiant");
         istatdao.createStatus("Charge de cours");
