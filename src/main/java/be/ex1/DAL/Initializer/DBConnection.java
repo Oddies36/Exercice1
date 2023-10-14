@@ -11,7 +11,7 @@ public class DBConnection {
 
     public DBConnection(){
         try{
-            DBConnection.conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/ecole", "postgres", "P642max36+");
+            DBConnection.conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/ecole", "postgres", "");
             System.out.println("Connection ok");
         }    
         catch(SQLException e){

@@ -14,7 +14,7 @@ public class Main {
 
         new DatabaseInitializer();
 
-        DAOFactory factory = new DAOFactory();
+/*         DAOFactory factory = new DAOFactory();
 
         IStatusDAO istatdao = factory.createStatusDAO();
         ISectionDAO isecdao = factory.createSectionDAO();
@@ -45,7 +45,7 @@ public class Main {
         icourPersdao.createCours_personne("Poulet", "Gilles", "Systèmes d'exploitation", 2022);
         icourPersdao.createCours_personne("Godissart", "Emmanuel", "Base de réseaux", 2023);
         icourPersdao.createCours_personne("Durant", "Richard", "Systèmes d'exploitation", 2021);
-        icourPersdao.createCours_personne("Durant", "Richard", "Base de réseaux", 2020);
+        icourPersdao.createCours_personne("Durant", "Richard", "Base de réseaux", 2020); */
 
         DBConnection.closeConnection();
 
