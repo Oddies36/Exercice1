@@ -12,7 +12,7 @@ import be.ex1.DAL.Initializer.DatabaseInitializer;
 public class Main {
     public static void main(String[] args) {
 
-        new DatabaseInitializer();
+        DatabaseInitializer.createAllTables();
 
         DAOFactory factory = new DAOFactory();
 

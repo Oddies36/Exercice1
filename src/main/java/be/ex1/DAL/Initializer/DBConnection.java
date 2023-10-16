@@ -8,10 +8,17 @@ public class DBConnection {
 
     public static Connection conn;
     private static DBConnection instance;
+    private DBProperties dbprop;
 
-    public DBConnection(){
+    private DBConnection(){
         try{
-            DBConnection.conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/ecole", "postgres", "test123");
+            dbprop = new DBProperties("C:\\Users\\maxim\\Desktop\\Ex1\\Exercice1\\config.properties");
+
+            String url = dbprop.getUrl();
+            String username = dbprop.getUsername();
+            String password = dbprop.getPassword();
+
+            DBConnection.conn = DriverManager.getConnection(url, username, password);
             System.out.println("Connection ok");
         }    
         catch(SQLException e){

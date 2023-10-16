@@ -13,8 +13,7 @@ import be.ex1.DAL.DAO.Status.StatusDAO;
 
 public class DatabaseInitializer {
     
-    public DatabaseInitializer(){
-        
+    public static void createAllTables(){
         DBConnection.getConnection();
 
         IStatusDAO istatdao = new StatusDAO();
@@ -28,7 +27,6 @@ public class DatabaseInitializer {
         isecdao.createTableSection();
         icdao.createTableCours();
         icpdao.createTableCours_Personne();
-
     }
 
 }
