@@ -12,7 +12,7 @@ public class DBConnection {
 
     private DBConnection(){
         try{
-            dbprop = new DBProperties("C:\\Users\\maxim\\Desktop\\Ex1\\Exercice1\\config.properties");
+            dbprop = new DBProperties("Exercice1\\config.properties");
 
             String url = dbprop.getUrl();
             String username = dbprop.getUsername();
